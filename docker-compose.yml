@@ -1,0 +1,36 @@
+services:
+  cassandra:
+    image: cassandra:4.1
+    container_name: ldlc-cassandra
+    ports:
+      - "9042:9042"
+    environment:
+      - CASSANDRA_CLUSTER_NAME=ldlc-analytics-cluster
+      - CASSANDRA_DC=datacenter1
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - MAX_HEAP_SIZE=1G
+      - HEAP_NEWSIZE=256M
+    volumes:
+      - cassandra_data:/var/lib/cassandra
+    healthcheck:
+      test: ["CMD-SHELL", "cqlsh -e 'describe keyspaces'"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 40s
+
+  cassandra-init:
+    image: cassandra:4.1
+    container_name: ldlc-cassandra-init
+    depends_on:
+      cassandra:
+        condition: service_healthy
+    volumes:
+      - ./schemas/lot3_cassandra.cql:/lot3_cassandra.cql:ro
+    command: >
+      bash -c "echo 'Initialisation du keyspace et des tables Lot 3...' &&
+      cqlsh cassandra 9042 -f /lot3_cassandra.cql &&
+      echo 'Schema Lot 3 charge avec succes.'"
+
+volumes:
+  cassandra_data:
