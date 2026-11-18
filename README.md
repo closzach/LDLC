@@ -79,12 +79,12 @@ flowchart TB
         direction TB
 
         subgraph L1["Lot 1 : Catalogue Produits (Orienté Documents)"]
-            Mongo[("🍃 MongoDB (CP)<br/>Base : ldlc<br/>• Lot1_Produits (~27k réf)<br/>• Lot1_Avis (Illimité)<br/>• Lot1_Marques (~600)<br/>Patterns : Polymorphic, Attribute, Subset")]:::mongo
+            Mongo[("🍃 MongoDB (CP)<br/>Base externe : ldlc<br/>• Lot1_Produits (~27k réf)<br/>• Lot1_Avis (illimité)<br/>• Lot1_Marques (~600)<br/>Patterns : Polymorphic, Attribute, Subset")]:::mongo
         end
 
         subgraph L2["Lot 2 : Panier & Sessions (Clé-Valeur In-Memory)"]
-            Redis[("⚡ Redis (AP - RAM)<br/>Structures Hash + TTL<br/>• session:&lt;token_id&gt; (TTL 30m)<br/>• cart:user:&lt;id&gt; (TTL 7j)<br/>• cart:guest:&lt;id&gt; (TTL 24h)")]:::redis
-            AuthDB[("🔒 Base Comptes (CP / ACID)<br/>Stockage persistant des<br/>emails & hash Argon2id")]:::auth
+            Redis[("⚡ Redis (AP - RAM)<br/>Structures Hash + TTL<br/>• session:&lt;token_id&gt; (30 min)<br/>• cart:user:&lt;id&gt; (7 jours)<br/>• cart:guest:&lt;id&gt; (24 h)")]:::redis
+            AuthDB[("🔒 Base Comptes externe (CP / ACID)<br/>PostgreSQL ou MongoDB<br/>emails & hash Argon2id/bcrypt")]:::auth
         end
 
         subgraph L3["Lot 3 : Logs & Analytics (Orienté Colonnes)"]
@@ -98,13 +98,15 @@ flowchart TB
 
     %% Flux API <-> Bases de données
     API ==>|"1. Lecture fiches, filtres<br/>& avis ($elemMatch, IXSCAN)"| Mongo
-    API ==>|"2. Lecture/Écriture < 1ms<br/>(HSET, HGETALL, EXPIRE)"| Redis
-    API -.->|"3. Écriture asynchrone (ONE)<br/>& lecture commandes (QUORUM)"| Cassandra
+    API ==>|"2. Vérification et sessions<br/>HSET, HGETALL, EXPIRE"| Redis
+    API -.->|"3. Écritures logs (ONE)<br/>Lecture commandes (QUORUM)"| Cassandra
     API ==>|"4. Achats croisés &<br/>compatibilité multi-sauts"| Neo4j
+    API -.->|"Authentification initiale"| AuthDB
 
     %% Interactions et cohérence inter-bases (Liens métier entre les Lots)
-    AuthDB -.->|"Validation login initial<br/>puis création token UUID"| Redis
-    Mongo -.->|"Dénormalisation à l'ajout au panier<br/>(Copie nom + unit_price)<br/>& Vérification prix au Checkout"| Redis
-    Mongo -.->|"Source de vérité Catalogue<br/>Synchronisation de l'id_produit<br/>et des règles de compatibilité"| Neo4j
-    Redis -.->|"Validation commande (Checkout) :<br/>Archivage dans commandes_par_client<br/>& ajout arête :A_ACHETE"| Cassandra
-    Redis -.->|"Mise à jour graphe d'achat (:A_ACHETE)"| Neo4j
+    AuthDB -.->|"Validation login puis<br/>création du token UUID"| Redis
+    Mongo -.->|"Copie nom et prix unitaire<br/>dans Redis à l'ajout au panier"| Redis
+    Mongo -.->|"Vérification finale du prix<br/>au moment du Checkout"| Redis
+    Mongo -.->|"id_produit : P000xxx<br/>Source des fiches et compatibilités"| Neo4j
+    Redis -.->|"Validation du Checkout :<br/>archivage dans commandes_par_client"| Cassandra
+    Redis -.->|"Confirmation d'achat :<br/>ajout de l'arête :A_ACHETE"| Neo4j

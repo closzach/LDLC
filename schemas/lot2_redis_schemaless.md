@@ -9,7 +9,7 @@ Puisque **Redis** est une base de données NoSQL orientée **Clé-Valeur (*In-Me
 ```mermaid
 erDiagram
     USER_AUTH {
-        string KEY "user:auth:{email} (Hash)"
+        string table "users (base persistante externe)"
         string user_id "Identifiant unique client"
         string password_hash "Condensat Argon2id / Bcrypt"
         string role "client | admin"
@@ -18,7 +18,7 @@ erDiagram
 
     SESSION {
         string KEY "session:{token_id} (Hash) [TTL: 30 min]"
-        string user_id "Référence vers USER_AUTH.user_id"
+        string user_id "Identifiant issu de USER_AUTH"
         string email "Email authentifié"
         string role "Niveau d'autorisation"
         string auth_method "password"
@@ -37,26 +37,26 @@ erDiagram
     }
 
     USER_AUTH ||--o{ SESSION : "génère après connexion"
-    USER_AUTH ||--o| CART_USER : "possède"
+    USER_AUTH ||--o| CART_USER : "possède après connexion"
     SESSION ||--o| CART_GUEST : "associé avant connexion"
+    SESSION ||--o| CART_USER : "identifie le propriétaire"
 ```
 
 ---
 
 ## 2. Spécifications Détaillées des Clés
 
-### 2.1. Comptes Utilisateurs (Authentification)
-* **Pattern de Clé :** `user:auth:<email>`
-* **Exemple :** `user:auth:client@ldlc.com`
-* **Type Redis :** `HASH`
-* **Politique TTL :** Persistant (`TTL = -1`, aucune expiration automatique)
+### 2.1. Comptes Utilisateurs (Authentification externe)
 
-| Champ (*Field*) | Type | Obligatoire | Description & Contraintes |
-| :--- | :--- | :--- | :--- |
-| `user_id` | `String` | Oui | Identifiant unique du client du Lot 1 (ex: `"C000001"`). |
-| `password_hash` | `String` | Oui | Mot de passe haché avec sel (Argon2id ou Bcrypt). Jamais en clair. |
-| `role` | `String` | Oui | Rôle applicatif (`"client"`, `"pro"`, `"admin"`). |
-| `created_at` | `String` | Oui | Date de création du compte au format ISO-8601. |
+Les identifiants permanents ne sont pas stockés dans Redis. Ils restent dans une base persistante à choix CP, par exemple PostgreSQL ou MongoDB, avec une contrainte d'unicité sur l'e-mail et un stockage exclusif des mots de passe hachés (Argon2id ou bcrypt).
+
+Après authentification réussie, l'application crée uniquement une session Redis temporaire :
+
+| Champ | Description |
+| :--- | :--- |
+| `user_id` | Identifiant unique du client, issu de la base externe. |
+| `password_hash` | Champ conservé dans la base externe ; jamais dans Redis. |
+| `role` | Rôle récupéré lors de la connexion. |
 
 ---
 
@@ -108,14 +108,11 @@ erDiagram
 Ce script permet d'initialiser un jeu de données de référence conforme au schéma ci-dessus via `redis-cli` :
 
 ```redis
--- 1. Création d'un compte utilisateur de test (mot de passe haché)
-HSET user:auth:jean.dupont@ldlc.com user_id "C000001" password_hash "$2b$12$eImiTXuWVxfM37uY4JANjQ==" role "client" created_at "2026-11-18T14:00:00Z"
-
--- 2. Création d'une session active (TTL 30 min)
+-- 1. Création d'une session active après validation du compte externe
 HSET session:a8f5c9e2-4b71-4d3a-9e11-f23456789abc user_id "C000001" email "jean.dupont@ldlc.com" role "client" auth_method "password" last_activity "1731938400"
 EXPIRE session:a8f5c9e2-4b71-4d3a-9e11-f23456789abc 1800
 
--- 3. Initialisation du panier associé avec prix unitaire (TTL 7 jours)
+-- 2. Initialisation du panier associé avec prix unitaire (TTL 7 jours)
 HSET cart:user:C000001 P000001 '{"name": "AMD Ryzen 7 7800X3D", "qty": 1, "unit_price": 449.95}'
 HSET cart:user:C000001 P000003 '{"name": "Corsair Vengeance DDR5 32 Go", "qty": 2, "unit_price": 119.90}'
 EXPIRE cart:user:C000001 604800
