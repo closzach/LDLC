@@ -49,3 +49,55 @@ Ce projet propose une architecture basée sur la **persistance polyglotte**, att
 
 ### Lot 4 : Moteur de Recommandations (Neo4j)
 * [`Docs/lot4_conception.md`](./Docs/lot4_conception.md) — Modélisation du graphe (nœuds `Produit`, `Client`, `Categorie`, `Marque` et arêtes `:A_ACHETE`, `:COMPATIBLE_AVEC`) et requêtes Cypher (achats croisés et compatibilité multi-sauts).
+
+```mermaid
+flowchart TB
+    %% Définition des styles visuels
+    classDef client fill:#1e293b,stroke:#0f172a,stroke-width:2px,color:#ffffff,font-weight:bold
+    classDef api fill:#2563eb,stroke:#1d4ed8,stroke-width:2px,color:#ffffff,font-weight:bold
+    classDef mongo fill:#16a34a,stroke:#15803d,stroke-width:2px,color:#ffffff
+    classDef redis fill:#dc2626,stroke:#b91c1c,stroke-width:2px,color:#ffffff
+    classDef cassandra fill:#d97706,stroke:#b45309,stroke-width:2px,color:#ffffff
+    classDef neo4j fill:#0284c7,stroke:#0369a1,stroke-width:2px,color:#ffffff
+    classDef auth fill:#475569,stroke:#334155,stroke-width:2px,color:#ffffff
+
+    %% Couche Front & Backend
+    Client(["🖥️ Client Web / Mobile LDLC"]):::client
+    API["⚙️ Backend / API Gateway LDLC<br/>(Routage & Orchestration Polyglotte)"]:::api
+
+    Client <==>|"Requêtes HTTPS (Navigation, Panier, Achat)"| API
+
+    %% Sous-graphe des Bases de Données
+    subgraph Polyglot["Architecture de Données NoSQL (Persistance Polyglotte)"]
+        direction TB
+
+        subgraph L1["Lot 1 : Catalogue Produits (Orienté Documents)"]
+            Mongo[("🍃 MongoDB (CP)<br/>Base : ldlc<br/>• Lot1_Produits (~27k réf)<br/>• Lot1_Avis (Illimité)<br/>• Lot1_Marques (~600)<br/>Patterns : Polymorphic, Attribute, Subset")]:::mongo
+        end
+
+        subgraph L2["Lot 2 : Panier & Sessions (Clé-Valeur In-Memory)"]
+            Redis[("⚡ Redis (AP - RAM)<br/>Structures Hash + TTL<br/>• session:&lt;token_id&gt; (TTL 30m)<br/>• cart:user:&lt;id&gt; (TTL 7j)<br/>• cart:guest:&lt;id&gt; (TTL 24h)")]:::redis
+            AuthDB[("🔒 Base Comptes (CP / ACID)<br/>Stockage persistant des<br/>emails & hash Argon2id")]:::auth
+        end
+
+        subgraph L3["Lot 3 : Logs & Analytics (Orienté Colonnes)"]
+            Cassandra[("👁️ Apache Cassandra (AP)<br/>Keyspace : ldlc_analytics<br/>• logs_navigation (TTL 180j)<br/>• vues_par_produit_jour (Counter)<br/>• top_produits_semaine<br/>• commandes_par_client")]:::cassandra
+        end
+
+        subgraph L4["Lot 4 : Recommandations (Orienté Graphe)"]
+            Neo4j[("🕸️ Neo4j (CP / ACID)<br/>Traversée Cypher O(1)<br/>• Nœuds : Produit, Client, Categorie, Marque<br/>• Arêtes : :A_ACHETE, :COMPATIBLE_AVEC,<br/>:APPARTIENT_A, :DE_MARQUE")]:::neo4j
+        end
+    end
+
+    %% Flux API <-> Bases de données
+    API ==>|"1. Lecture fiches, filtres<br/>& avis ($elemMatch, IXSCAN)"| Mongo
+    API ==>|"2. Lecture/Écriture < 1ms<br/>(HSET, HGETALL, EXPIRE)"| Redis
+    API -.->|"3. Écriture asynchrone (ONE)<br/>& lecture commandes (QUORUM)"| Cassandra
+    API ==>|"4. Achats croisés &<br/>compatibilité multi-sauts"| Neo4j
+
+    %% Interactions et cohérence inter-bases (Liens métier entre les Lots)
+    AuthDB -.->|"Validation login initial<br/>puis création token UUID"| Redis
+    Mongo -.->|"Dénormalisation à l'ajout au panier<br/>(Copie nom + unit_price)<br/>& Vérification prix au Checkout"| Redis
+    Mongo -.->|"Source de vérité Catalogue<br/>Synchronisation de l'id_produit<br/>et des règles de compatibilité"| Neo4j
+    Redis -.->|"Validation commande (Checkout) :<br/>Archivage dans commandes_par_client<br/>& ajout arête :A_ACHETE"| Cassandra
+    Redis -.->|"Mise à jour graphe d'achat (:A_ACHETE)"| Neo4j
