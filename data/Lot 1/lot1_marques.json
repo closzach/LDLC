@@ -1,0 +1,15 @@
+[
+  { "_id": "B001", "nom": "AMD", "pays": "États-Unis" },
+  { "_id": "B002", "nom": "ASUS", "pays": "Taïwan" },
+  { "_id": "B003", "nom": "Corsair", "pays": "États-Unis" },
+  { "_id": "B004", "nom": "MSI", "pays": "Taïwan" },
+  { "_id": "B005", "nom": "Fractal Design", "pays": "Suède" },
+  { "_id": "B006", "nom": "Samsung", "pays": "Corée du Sud" },
+  { "_id": "B007", "nom": "Logitech", "pays": "Suisse" },
+  { "_id": "B008", "nom": "Keychron", "pays": "Hong Kong" },
+  { "_id": "B009", "nom": "Dell", "pays": "États-Unis" },
+  { "_id": "B010", "nom": "LG", "pays": "Corée du Sud" },
+  { "_id": "B011", "nom": "Microsoft", "pays": "États-Unis" },
+  { "_id": "B012", "nom": "Bitdefender", "pays": "Roumanie" },
+  { "_id": "B013", "nom": "Lenovo", "pays": "Chine" }
+]

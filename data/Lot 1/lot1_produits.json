@@ -1,0 +1,385 @@
+[
+  {
+    "_id": "P000001",
+    "version_schema": 1,
+    "nom": "AMD Ryzen 7 7800X3D",
+    "categorie": "composants",
+    "sous_categorie": "processeur",
+    "marque": { "id": "B001", "nom": "AMD" },
+    "prix": { "montant": 449.90, "devise": "EUR" },
+    "description": "Processeur 8 cœurs avec technologie 3D V-Cache, conçu pour le jeu vidéo.",
+    "caracteristiques": [
+      { "cle": "socket", "valeur": "AM5" },
+      { "cle": "coeurs", "valeur": 8 },
+      { "cle": "threads", "valeur": 16 },
+      { "cle": "frequence_base", "valeur": 4.2, "unite": "GHz" },
+      { "cle": "frequence_boost", "valeur": 5.0, "unite": "GHz" },
+      { "cle": "cache_l3", "valeur": 96, "unite": "Mo" },
+      { "cle": "type_memoire", "valeur": "DDR5" },
+      { "cle": "tdp", "valeur": 120, "unite": "W" }
+    ],
+    "compatible_avec": ["P000002", "P000003"],
+    "resume_avis": { "nombre": 7, "somme": 33 },
+    "derniers_avis": [
+      { "id_avis": { "$oid": "673a00000000000000000007" }, "note": 5, "titre": "Le meilleur choix", "date": { "$date": "2026-11-14T10:15:00Z" } },
+      { "id_avis": { "$oid": "673a00000000000000000006" }, "note": 5, "titre": "Je recommande", "date": { "$date": "2026-11-06T18:40:00Z" } },
+      { "id_avis": { "$oid": "673a00000000000000000005" }, "note": 4, "titre": "Chauffe un peu", "date": { "$date": "2026-10-30T09:05:00Z" } },
+      { "id_avis": { "$oid": "673a00000000000000000004" }, "note": 5, "titre": "Parfait pour le gaming", "date": { "$date": "2026-10-19T20:30:00Z" } },
+      { "id_avis": { "$oid": "673a00000000000000000003" }, "note": 4, "titre": "Très bon mais cher", "date": { "$date": "2026-10-05T14:20:00Z" } }
+    ],
+    "date_creation": { "$date": "2026-08-15T08:00:00Z" },
+    "date_modification": { "$date": "2026-11-14T10:15:00Z" }
+  },
+  {
+    "_id": "P000002",
+    "version_schema": 1,
+    "nom": "ASUS ROG STRIX B650E-F GAMING WIFI",
+    "categorie": "composants",
+    "sous_categorie": "carte_mere",
+    "marque": { "id": "B002", "nom": "ASUS" },
+    "prix": { "montant": 289.90, "devise": "EUR" },
+    "description": "Carte mère ATX socket AM5 avec Wi-Fi intégré, adaptée aux processeurs Ryzen série 7000.",
+    "caracteristiques": [
+      { "cle": "socket", "valeur": "AM5" },
+      { "cle": "chipset", "valeur": "B650E" },
+      { "cle": "format", "valeur": "ATX" },
+      { "cle": "type_memoire", "valeur": "DDR5" },
+      { "cle": "slots_memoire", "valeur": 4 },
+      { "cle": "wifi", "valeur": true }
+    ],
+    "compatible_avec": ["P000001", "P000003", "P000004", "P000005", "P000006"],
+    "resume_avis": { "nombre": 2, "somme": 9 },
+    "derniers_avis": [
+      { "id_avis": { "$oid": "673a00000000000000000009" }, "note": 4, "titre": "Très complète", "date": { "$date": "2026-11-03T16:10:00Z" } },
+      { "id_avis": { "$oid": "673a00000000000000000008" }, "note": 5, "titre": "Carte mère solide", "date": { "$date": "2026-10-02T11:00:00Z" } }
+    ],
+    "date_creation": { "$date": "2026-08-15T08:00:00Z" },
+    "date_modification": { "$date": "2026-11-03T16:10:00Z" }
+  },
+  {
+    "_id": "P000003",
+    "version_schema": 1,
+    "nom": "Corsair Vengeance DDR5 32 Go (2 x 16 Go) 6000 MHz",
+    "categorie": "composants",
+    "sous_categorie": "memoire_vive",
+    "marque": { "id": "B003", "nom": "Corsair" },
+    "prix": { "montant": 119.90, "devise": "EUR" },
+    "description": "Kit de 2 barrettes DDR5 de 16 Go, profil d'overclocking prêt à l'emploi.",
+    "caracteristiques": [
+      { "cle": "type_memoire", "valeur": "DDR5" },
+      { "cle": "capacite", "valeur": 32, "unite": "Go" },
+      { "cle": "nb_barrettes", "valeur": 2 },
+      { "cle": "frequence", "valeur": 6000, "unite": "MHz" },
+      { "cle": "latence", "valeur": "CL30" }
+    ],
+    "compatible_avec": ["P000001", "P000002"],
+    "resume_avis": { "nombre": 1, "somme": 5 },
+    "derniers_avis": [
+      { "id_avis": { "$oid": "673a00000000000000000010" }, "note": 5, "titre": "Mémoire stable", "date": { "$date": "2026-10-15T12:00:00Z" } }
+    ],
+    "date_creation": { "$date": "2026-08-20T08:00:00Z" },
+    "date_modification": { "$date": "2026-10-15T12:00:00Z" }
+  },
+  {
+    "_id": "P000004",
+    "version_schema": 1,
+    "nom": "MSI GeForce RTX 4070 SUPER 12G VENTUS 2X",
+    "categorie": "composants",
+    "sous_categorie": "carte_graphique",
+    "marque": { "id": "B004", "nom": "MSI" },
+    "prix": { "montant": 619.90, "devise": "EUR" },
+    "description": "Carte graphique 12 Go GDDR6X pour le jeu en 1440p.",
+    "caracteristiques": [
+      { "cle": "memoire_video", "valeur": 12, "unite": "Go" },
+      { "cle": "type_memoire_video", "valeur": "GDDR6X" },
+      { "cle": "interface", "valeur": "PCIe 4.0 x16" },
+      { "cle": "longueur", "valeur": 242, "unite": "mm" },
+      { "cle": "tdp", "valeur": 220, "unite": "W" }
+    ],
+    "compatible_avec": ["P000002", "P000005"],
+    "resume_avis": { "nombre": 2, "somme": 9 },
+    "derniers_avis": [
+      { "id_avis": { "$oid": "673a00000000000000000012" }, "note": 5, "titre": "Très bon rapport qualité/prix", "date": { "$date": "2026-11-09T19:25:00Z" } },
+      { "id_avis": { "$oid": "673a00000000000000000011" }, "note": 4, "titre": "Silencieuse", "date": { "$date": "2026-10-08T21:00:00Z" } }
+    ],
+    "date_creation": { "$date": "2026-08-22T08:00:00Z" },
+    "date_modification": { "$date": "2026-11-09T19:25:00Z" }
+  },
+  {
+    "_id": "P000005",
+    "version_schema": 1,
+    "nom": "Fractal Design North",
+    "categorie": "composants",
+    "sous_categorie": "boitier",
+    "marque": { "id": "B005", "nom": "Fractal Design" },
+    "prix": { "montant": 149.90, "devise": "EUR" },
+    "description": "Boîtier moyen tour au design sobre avec façade en bois et bon flux d'air.",
+    "caracteristiques": [
+      { "cle": "format", "valeur": "ATX" },
+      { "cle": "longueur_gpu_max", "valeur": 355, "unite": "mm" },
+      { "cle": "ventilateurs_inclus", "valeur": 2 },
+      { "cle": "facade", "valeur": "bois" }
+    ],
+    "compatible_avec": ["P000002", "P000004"],
+    "resume_avis": { "nombre": 1, "somme": 5 },
+    "derniers_avis": [
+      { "id_avis": { "$oid": "673a00000000000000000013" }, "note": 5, "titre": "Boîtier élégant", "date": { "$date": "2026-09-30T08:45:00Z" } }
+    ],
+    "date_creation": { "$date": "2026-08-25T08:00:00Z" },
+    "date_modification": { "$date": "2026-09-30T08:45:00Z" }
+  },
+  {
+    "_id": "P000006",
+    "version_schema": 1,
+    "nom": "Samsung 990 PRO 2 To",
+    "categorie": "composants",
+    "sous_categorie": "stockage",
+    "marque": { "id": "B006", "nom": "Samsung" },
+    "prix": { "montant": 189.90, "devise": "EUR" },
+    "description": "SSD NVMe M.2 PCIe 4.0 très rapide.",
+    "caracteristiques": [
+      { "cle": "capacite", "valeur": 2000, "unite": "Go" },
+      { "cle": "interface", "valeur": "NVMe PCIe 4.0" },
+      { "cle": "format", "valeur": "M.2 2280" },
+      { "cle": "vitesse_lecture", "valeur": 7450, "unite": "Mo/s" },
+      { "cle": "vitesse_ecriture", "valeur": 6900, "unite": "Mo/s" }
+    ],
+    "compatible_avec": ["P000002"],
+    "resume_avis": { "nombre": 2, "somme": 9 },
+    "derniers_avis": [
+      { "id_avis": { "$oid": "673a00000000000000000015" }, "note": 4, "titre": "Chauffe en charge", "date": { "$date": "2026-11-01T13:30:00Z" } },
+      { "id_avis": { "$oid": "673a00000000000000000014" }, "note": 5, "titre": "Très rapide", "date": { "$date": "2026-10-11T17:00:00Z" } }
+    ],
+    "date_creation": { "$date": "2026-08-28T08:00:00Z" },
+    "date_modification": { "$date": "2026-11-01T13:30:00Z" }
+  },
+  {
+    "_id": "P000007",
+    "version_schema": 1,
+    "nom": "Logitech G PRO X SUPERLIGHT 2",
+    "categorie": "peripheriques",
+    "sous_categorie": "souris",
+    "marque": { "id": "B007", "nom": "Logitech" },
+    "prix": { "montant": 169.90, "devise": "EUR" },
+    "description": "Souris gaming sans fil ultra légère pour le jeu compétitif.",
+    "caracteristiques": [
+      { "cle": "dpi", "valeur": 32000 },
+      { "cle": "connectivite", "valeur": "sans fil" },
+      { "cle": "poids", "valeur": 60, "unite": "g" },
+      { "cle": "autonomie", "valeur": 95, "unite": "h" },
+      { "cle": "nb_boutons", "valeur": 5 }
+    ],
+    "compatible_avec": [],
+    "resume_avis": { "nombre": 6, "somme": 27 },
+    "derniers_avis": [
+      { "id_avis": { "$oid": "673a00000000000000000021" }, "note": 5, "titre": "Au top", "date": { "$date": "2026-11-12T09:00:00Z" } },
+      { "id_avis": { "$oid": "673a00000000000000000020" }, "note": 3, "titre": "Forme pas pour tout le monde", "date": { "$date": "2026-11-02T20:15:00Z" } },
+      { "id_avis": { "$oid": "673a00000000000000000019" }, "note": 5, "titre": "La meilleure souris que j'ai eue", "date": { "$date": "2026-10-17T15:45:00Z" } },
+      { "id_avis": { "$oid": "673a00000000000000000018" }, "note": 4, "titre": "Très bien mais chère", "date": { "$date": "2026-09-29T10:10:00Z" } },
+      { "id_avis": { "$oid": "673a00000000000000000017" }, "note": 5, "titre": "Précise et rapide", "date": { "$date": "2026-09-14T12:20:00Z" } }
+    ],
+    "date_creation": { "$date": "2026-08-10T08:00:00Z" },
+    "date_modification": { "$date": "2026-11-12T09:00:00Z" }
+  },
+  {
+    "_id": "P000008",
+    "version_schema": 1,
+    "nom": "Keychron K8 Pro",
+    "categorie": "peripheriques",
+    "sous_categorie": "clavier",
+    "marque": { "id": "B008", "nom": "Keychron" },
+    "prix": { "montant": 119.90, "devise": "EUR" },
+    "description": "Clavier mécanique sans pavé numérique, connexion Bluetooth ou filaire.",
+    "caracteristiques": [
+      { "cle": "disposition", "valeur": "AZERTY" },
+      { "cle": "format", "valeur": "TKL" },
+      { "cle": "type_switch", "valeur": "Gateron Brown" },
+      { "cle": "connectivite", "valeur": "Bluetooth / filaire" },
+      { "cle": "retroeclairage", "valeur": "RGB" }
+    ],
+    "compatible_avec": [],
+    "resume_avis": { "nombre": 1, "somme": 4 },
+    "derniers_avis": [
+      { "id_avis": { "$oid": "673a00000000000000000022" }, "note": 4, "titre": "Frappe agréable", "date": { "$date": "2026-10-22T19:00:00Z" } }
+    ],
+    "date_creation": { "$date": "2026-08-12T08:00:00Z" },
+    "date_modification": { "$date": "2026-10-22T19:00:00Z" }
+  },
+  {
+    "_id": "P000009",
+    "version_schema": 1,
+    "nom": "Dell UltraSharp U2723QE",
+    "categorie": "peripheriques",
+    "sous_categorie": "ecran",
+    "marque": { "id": "B009", "nom": "Dell" },
+    "prix": { "montant": 599.90, "devise": "EUR" },
+    "description": "Écran 27 pouces 4K très fidèle en couleurs, avec hub USB-C.",
+    "caracteristiques": [
+      { "cle": "diagonale", "valeur": 27, "unite": "pouces" },
+      { "cle": "resolution", "valeur": "3840x2160" },
+      { "cle": "dalle", "valeur": "IPS Black" },
+      { "cle": "frequence", "valeur": 60, "unite": "Hz" },
+      { "cle": "connectique", "valeur": "USB-C / HDMI / DisplayPort" }
+    ],
+    "compatible_avec": [],
+    "resume_avis": { "nombre": 2, "somme": 10 },
+    "derniers_avis": [
+      { "id_avis": { "$oid": "673a00000000000000000024" }, "note": 5, "titre": "Parfait pour la bureautique", "date": { "$date": "2026-10-27T08:30:00Z" } },
+      { "id_avis": { "$oid": "673a00000000000000000023" }, "note": 5, "titre": "Écran très précis", "date": { "$date": "2026-09-18T14:00:00Z" } }
+    ],
+    "date_creation": { "$date": "2026-08-18T08:00:00Z" },
+    "date_modification": { "$date": "2026-10-27T08:30:00Z" }
+  },
+  {
+    "_id": "P000010",
+    "version_schema": 1,
+    "nom": "LG UltraGear 27GP850-B",
+    "categorie": "peripheriques",
+    "sous_categorie": "ecran",
+    "marque": { "id": "B010", "nom": "LG" },
+    "prix": { "montant": 349.90, "devise": "EUR" },
+    "description": "Écran gaming 27 pouces QHD à haute fréquence de rafraîchissement.",
+    "caracteristiques": [
+      { "cle": "diagonale", "valeur": 27, "unite": "pouces" },
+      { "cle": "resolution", "valeur": "2560x1440" },
+      { "cle": "dalle", "valeur": "Nano IPS" },
+      { "cle": "frequence", "valeur": 180, "unite": "Hz" },
+      { "cle": "temps_reponse", "valeur": 1, "unite": "ms" }
+    ],
+    "compatible_avec": [],
+    "resume_avis": { "nombre": 2, "somme": 9 },
+    "derniers_avis": [
+      { "id_avis": { "$oid": "673a00000000000000000026" }, "note": 4, "titre": "Très bon écran gaming", "date": { "$date": "2026-11-10T21:10:00Z" } },
+      { "id_avis": { "$oid": "673a00000000000000000025" }, "note": 5, "titre": "Fluide", "date": { "$date": "2026-10-06T18:00:00Z" } }
+    ],
+    "date_creation": { "$date": "2026-08-18T09:00:00Z" },
+    "date_modification": { "$date": "2026-11-10T21:10:00Z" }
+  },
+  {
+    "_id": "P000011",
+    "version_schema": 1,
+    "nom": "Windows 11 Professionnel 64 bits OEM",
+    "categorie": "logiciels",
+    "sous_categorie": "systeme_exploitation",
+    "marque": { "id": "B011", "nom": "Microsoft" },
+    "prix": { "montant": 149.90, "devise": "EUR" },
+    "description": "Licence OEM de Windows 11 Professionnel, livrée par e-mail.",
+    "caracteristiques": [
+      { "cle": "type_licence", "valeur": "OEM" },
+      { "cle": "plateforme", "valeur": "Windows" },
+      { "cle": "architecture", "valeur": "64 bits" },
+      { "cle": "livraison", "valeur": "clé numérique" },
+      { "cle": "duree", "valeur": "illimitée" },
+      { "cle": "langue", "valeur": "français" }
+    ],
+    "compatible_avec": ["P000012"],
+    "resume_avis": { "nombre": 2, "somme": 10 },
+    "derniers_avis": [
+      { "id_avis": { "$oid": "673a00000000000000000028" }, "note": 5, "titre": "Conforme", "date": { "$date": "2026-11-05T07:50:00Z" } },
+      { "id_avis": { "$oid": "673a00000000000000000027" }, "note": 5, "titre": "Livraison immédiate", "date": { "$date": "2026-10-01T09:20:00Z" } }
+    ],
+    "date_creation": { "$date": "2026-08-30T08:00:00Z" },
+    "date_modification": { "$date": "2026-11-05T07:50:00Z" }
+  },
+  {
+    "_id": "P000012",
+    "version_schema": 1,
+    "nom": "Microsoft Office 2021 Famille et Petite Entreprise",
+    "categorie": "logiciels",
+    "sous_categorie": "bureautique",
+    "marque": { "id": "B011", "nom": "Microsoft" },
+    "prix": { "montant": 249.90, "devise": "EUR" },
+    "description": "Suite bureautique en licence perpétuelle pour un poste.",
+    "caracteristiques": [
+      { "cle": "type_licence", "valeur": "perpétuelle" },
+      { "cle": "plateforme", "valeur": "Windows / macOS" },
+      { "cle": "nb_postes", "valeur": 1 },
+      { "cle": "livraison", "valeur": "clé numérique" },
+      { "cle": "applications", "valeur": "Word, Excel, PowerPoint, Outlook, OneNote" }
+    ],
+    "compatible_avec": ["P000011"],
+    "resume_avis": { "nombre": 1, "somme": 4 },
+    "derniers_avis": [
+      { "id_avis": { "$oid": "673a00000000000000000029" }, "note": 4, "titre": "Fait le travail", "date": { "$date": "2026-10-24T11:30:00Z" } }
+    ],
+    "date_creation": { "$date": "2026-08-30T09:00:00Z" },
+    "date_modification": { "$date": "2026-10-24T11:30:00Z" }
+  },
+  {
+    "_id": "P000013",
+    "version_schema": 1,
+    "nom": "Bitdefender Total Security",
+    "categorie": "logiciels",
+    "sous_categorie": "securite",
+    "marque": { "id": "B012", "nom": "Bitdefender" },
+    "prix": { "montant": 39.90, "devise": "EUR" },
+    "description": "Suite de sécurité multi-appareils en abonnement d'un an.",
+    "caracteristiques": [
+      { "cle": "type_licence", "valeur": "abonnement" },
+      { "cle": "duree", "valeur": 12, "unite": "mois" },
+      { "cle": "nb_appareils", "valeur": 5 },
+      { "cle": "plateforme", "valeur": "Windows / macOS / Android / iOS" },
+      { "cle": "livraison", "valeur": "clé numérique" }
+    ],
+    "compatible_avec": [],
+    "resume_avis": { "nombre": 1, "somme": 4 },
+    "derniers_avis": [
+      { "id_avis": { "$oid": "673a00000000000000000030" }, "note": 4, "titre": "Protection efficace", "date": { "$date": "2026-11-07T15:00:00Z" } }
+    ],
+    "date_creation": { "$date": "2026-09-02T08:00:00Z" },
+    "date_modification": { "$date": "2026-11-07T15:00:00Z" }
+  },
+  {
+    "_id": "P000014",
+    "version_schema": 1,
+    "nom": "ASUS ROG Zephyrus G14",
+    "categorie": "ordinateurs_portables",
+    "sous_categorie": "pc_portable_gaming",
+    "marque": { "id": "B002", "nom": "ASUS" },
+    "prix": { "montant": 1799.90, "devise": "EUR" },
+    "description": "PC portable gaming compact de 14 pouces.",
+    "caracteristiques": [
+      { "cle": "diagonale", "valeur": 14, "unite": "pouces" },
+      { "cle": "processeur", "valeur": "AMD Ryzen 9 8945HS" },
+      { "cle": "carte_graphique", "valeur": "NVIDIA GeForce RTX 4060 Laptop" },
+      { "cle": "ram", "valeur": 32, "unite": "Go" },
+      { "cle": "stockage", "valeur": 1000, "unite": "Go" },
+      { "cle": "batterie", "valeur": 73, "unite": "Wh" },
+      { "cle": "poids", "valeur": 1.5, "unite": "kg" }
+    ],
+    "compatible_avec": [],
+    "resume_avis": { "nombre": 2, "somme": 9 },
+    "derniers_avis": [
+      { "id_avis": { "$oid": "673a00000000000000000032" }, "note": 4, "titre": "Excellent mais chaud", "date": { "$date": "2026-11-11T20:00:00Z" } },
+      { "id_avis": { "$oid": "673a00000000000000000031" }, "note": 5, "titre": "Puissant et compact", "date": { "$date": "2026-10-13T16:30:00Z" } }
+    ],
+    "date_creation": { "$date": "2026-09-05T08:00:00Z" },
+    "date_modification": { "$date": "2026-11-11T20:00:00Z" }
+  },
+  {
+    "_id": "P000015",
+    "version_schema": 1,
+    "nom": "Lenovo ThinkPad E16 Gen 2",
+    "categorie": "ordinateurs_portables",
+    "sous_categorie": "pc_portable_bureautique",
+    "marque": { "id": "B013", "nom": "Lenovo" },
+    "prix": { "montant": 899.90, "devise": "EUR" },
+    "description": "PC portable de bureautique 16 pouces pour le travail quotidien.",
+    "caracteristiques": [
+      { "cle": "diagonale", "valeur": 16, "unite": "pouces" },
+      { "cle": "processeur", "valeur": "Intel Core Ultra 5 125U" },
+      { "cle": "ram", "valeur": 16, "unite": "Go" },
+      { "cle": "stockage", "valeur": 512, "unite": "Go" },
+      { "cle": "batterie", "valeur": 57, "unite": "Wh" },
+      { "cle": "poids", "valeur": 1.8, "unite": "kg" }
+    ],
+    "compatible_avec": [],
+    "resume_avis": { "nombre": 1, "somme": 4 },
+    "derniers_avis": [
+      { "id_avis": { "$oid": "673a00000000000000000033" }, "note": 4, "titre": "Solide pour le travail", "date": { "$date": "2026-10-29T13:00:00Z" } }
+    ],
+    "date_creation": { "$date": "2026-09-08T08:00:00Z" },
+    "date_modification": { "$date": "2026-10-29T13:00:00Z" }
+  }
+]
+
