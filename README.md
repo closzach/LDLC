@@ -1,6 +1,6 @@
 # Projet NoSQL — Refonte de l'Architecture de Données LDLC
 
-*Constantin
+* Constantin LOSZACH
 * Paul KUTZNER
 * Florian BURY
 ---
