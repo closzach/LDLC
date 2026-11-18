@@ -53,7 +53,7 @@ erDiagram
 
 | Champ (*Field*) | Type | Obligatoire | Description & Contraintes |
 | :--- | :--- | :--- | :--- |
-| `user_id` | `String` | Oui | Identifiant unique interne du client (ex: `"45892"`). |
+| `user_id` | `String` | Oui | Identifiant unique du client du Lot 1 (ex: `"C000001"`). |
 | `password_hash` | `String` | Oui | Mot de passe haché avec sel (Argon2id ou Bcrypt). Jamais en clair. |
 | `role` | `String` | Oui | Rôle applicatif (`"client"`, `"pro"`, `"admin"`). |
 | `created_at` | `String` | Oui | Date de création du compte au format ISO-8601. |
@@ -78,14 +78,14 @@ erDiagram
 
 ### 2.3. Panier Utilisateur Connecté
 * **Pattern de Clé :** `cart:user:<user_id>`
-* **Exemple :** `cart:user:45892`
+* **Exemple :** `cart:user:C000001`
 * **Type Redis :** `HASH`
 * **Politique TTL :** **604800 secondes (7 jours)** d'inactivité.
 
 | Champ (*Field*) | Valeur (*Value*) | Format de la Valeur (JSON Sérialisé) |
 | :--- | :--- | :--- |
-| `<sku_produit>` *(ex: `prod_ryzen_7`)* | `String` (JSON) | `{"name": "AMD Ryzen 7 7800X3D", "qty": 1, "unit_price": 449.95}` |
-| `<sku_produit_2>` *(ex: `prod_rtx_4070`)* | `String` (JSON) | `{"name": "NVIDIA RTX 4070", "qty": 2, "unit_price": 629.90}` |
+| `P000001` | `String` (JSON) | `{"name": "AMD Ryzen 7 7800X3D", "qty": 1, "unit_price": 449.95}` |
+| `P000003` | `String` (JSON) | `{"name": "Corsair Vengeance DDR5 32 Go", "qty": 2, "unit_price": 119.90}` |
 
 *Contraintes sur l'objet JSON embarqué :*
 * `name` (`String`) : Libellé court du produit pour affichage immédiat sans appel au Lot 1.
@@ -109,14 +109,14 @@ Ce script permet d'initialiser un jeu de données de référence conforme au sch
 
 ```redis
 -- 1. Création d'un compte utilisateur de test (mot de passe haché)
-HSET user:auth:jean.dupont@ldlc.com user_id "45892" password_hash "$2b$12$eImiTXuWVxfM37uY4JANjQ==" role "client" created_at "2026-11-18T14:00:00Z"
+HSET user:auth:jean.dupont@ldlc.com user_id "C000001" password_hash "$2b$12$eImiTXuWVxfM37uY4JANjQ==" role "client" created_at "2026-11-18T14:00:00Z"
 
 -- 2. Création d'une session active (TTL 30 min)
-HSET session:a8f5c9e2-4b71-4d3a-9e11-f23456789abc user_id "45892" email "jean.dupont@ldlc.com" role "client" auth_method "password" last_activity "1731938400"
+HSET session:a8f5c9e2-4b71-4d3a-9e11-f23456789abc user_id "C000001" email "jean.dupont@ldlc.com" role "client" auth_method "password" last_activity "1731938400"
 EXPIRE session:a8f5c9e2-4b71-4d3a-9e11-f23456789abc 1800
 
 -- 3. Initialisation du panier associé avec prix unitaire (TTL 7 jours)
-HSET cart:user:45892 prod_ryzen_7_7800x3d '{"name": "AMD Ryzen 7 7800X3D", "qty": 1, "unit_price": 449.95}'
-HSET cart:user:45892 prod_ram_ddr5_32g '{"name": "Corsair Vengeance DDR5 32Go", "qty": 2, "unit_price": 129.90}'
-EXPIRE cart:user:45892 604800
+HSET cart:user:C000001 P000001 '{"name": "AMD Ryzen 7 7800X3D", "qty": 1, "unit_price": 449.95}'
+HSET cart:user:C000001 P000003 '{"name": "Corsair Vengeance DDR5 32 Go", "qty": 2, "unit_price": 119.90}'
+EXPIRE cart:user:C000001 604800
 ```

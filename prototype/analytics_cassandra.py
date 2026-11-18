@@ -42,5 +42,5 @@ def lire_vues_jour(produit_id: str) -> int:
 
 if __name__ == "__main__":
     test_user = uuid.uuid4()
-    enregistrer_vue_produit(test_user, "AMD-RYZEN-7-9800X3D")
-    print(f"Vues aujourd'hui : {lire_vues_jour('AMD-RYZEN-7-9800X3D')}")
+    enregistrer_vue_produit(test_user, "P000001")
+    print(f"Vues aujourd'hui : {lire_vues_jour('P000001')}")

@@ -54,7 +54,7 @@ db.Lot1_Avis.getIndexes();
 // ajouter une nouvelle catégorie demanderait de modifier la règle
 // ---------------------------------------------------------------------
 db.runCommand({
-  collMod: "produits",
+  collMod: "Lot1_Produits",
   validator: {
     $jsonSchema: {
       bsonType: "object",

@@ -45,7 +45,40 @@ services:
       - NEO4J_server_memory_pagecache_size=256M
     volumes:
       - neo4j_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "cypher-shell -u neo4j -p password123 'RETURN 1;'"]
+      interval: 10s
+      timeout: 10s
+      retries: 12
+      start_period: 40s
+
+  neo4j-init:
+    image: neo4j:5-community
+    container_name: ldlc-neo4j-init
+    depends_on:
+      neo4j:
+        condition: service_healthy
+    volumes:
+      - ./schemas/lot4_neo4j.cypher:/lot4_neo4j.cypher:ro
+    command: >
+      bash -c "cypher-shell -a neo4j:7687 -u neo4j -p password123 -f /lot4_neo4j.cypher &&
+      echo 'Schema Lot 4 charge avec succes.'"
+
+  redis:
+    image: redis:7-alpine
+    container_name: ldlc-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes --appendfsync everysec
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   cassandra_data:
   neo4j_data:
+  redis_data:

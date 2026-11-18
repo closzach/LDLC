@@ -54,7 +54,7 @@ Pour ce périmètre, nous retenons **Neo4j**, une base de données NoSQL orient�
 
 #### A. Achats croisés (« Les clients qui ont acheté ce processeur ont aussi acheté... »)
 ```cypher
-MATCH (p1:Produit {id: 'AMD-RYZEN-7-9800X3D'})<-[:A_ACHETE]-(c:Client)-[:A_ACHETE]->(p2:Produit)
+MATCH (p1:Produit {id: 'P000001'})<-[:A_ACHETE]-(c:Client)-[:A_ACHETE]->(p2:Produit)
 WHERE p1 <> p2
 RETURN p2.id AS produit_recommande, p2.nom AS nom, COUNT(DISTINCT c) AS nb_acheteurs_communs
 ORDER BY nb_acheteurs_communs DESC
@@ -64,25 +64,25 @@ LIMIT 5;
 ```text
  produit_recommande | nom                         | nb_acheteurs_communs
 --------------------+-----------------------------+----------------------
- ASUS-ROG-X870E     | ASUS ROG Crosshair X870E    |                    2
- CORSAIR-DDR5-32G   | Corsair Vengeance 32Go DDR5 |                    1
+ P000002             | ASUS ROG STRIX B650E-F GAMING WIFI |                    2
+ P000003             | Corsair Vengeance DDR5 32 Go        |                    1
 ```
 
 #### B. Compatibilité matérielle (« Produits compatibles avec ce boîtier »)
 ```cypher
-MATCH (b:Produit {id: 'FRACTAL-NORTH-XL'})-[r:COMPATIBLE_AVEC]-(comp:Produit)-[:APPARTIENT_A]->(cat:Categorie)
+MATCH (b:Produit {id: 'P000005'})-[r:COMPATIBLE_AVEC]-(comp:Produit)-[:APPARTIENT_A]->(cat:Categorie)
 RETURN cat.nom AS categorie, comp.id AS produit_id, comp.nom AS nom_produit, r.regle AS critere_compatibilite;
 ```
 *Exemple de résultat retourné :*
 ```text
  categorie  | produit_id     | nom_produit              | critere_compatibilite
 ------------+----------------+--------------------------+----------------------
- Carte Mère | ASUS-ROG-X870E | ASUS ROG Crosshair X870E | Format ATX
+ Carte Mère | P000002 | ASUS ROG STRIX B650E-F GAMING WIFI | Format ATX
 ```
 
 #### C. Parcours multi-sauts (Configuration complète autour d'un processeur)
 ```cypher
-MATCH (cpu:Produit {id: 'AMD-RYZEN-7-9800X3D'})-[:COMPATIBLE_AVEC]-(cm:Produit)-[:APPARTIENT_A]->(:Categorie {nom: 'Carte Mère'})
+MATCH (cpu:Produit {id: 'P000001'})-[:COMPATIBLE_AVEC]-(cm:Produit)-[:APPARTIENT_A]->(:Categorie {nom: 'Carte Mère'})
 MATCH (cm)-[:COMPATIBLE_AVEC]-(ram:Produit)-[:APPARTIENT_A]->(:Categorie {nom: 'Mémoire RAM'})
 RETURN cpu.nom AS processeur, cm.nom AS carte_mere, ram.nom AS ram_compatible;
 ```

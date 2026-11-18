@@ -101,19 +101,19 @@ CREATE TABLE commandes_par_client (
 ```sql
 -- Écriture d'un événement de clic/vue
 INSERT INTO logs_navigation (jour, bucket, event_time, event_id, user_id, type_event, produit_id)
-VALUES ('2026-11-18', 14, '2026-11-18 14:22:05', now(), 550e8400-e29b-41d4-a716-446655440000, 'vue_produit', 'AMD-RYZEN-7-9800X3D');
+VALUES ('2026-11-18', 14, '2026-11-18 14:22:05', now(), 550e8400-e29b-41d4-a716-446655440000, 'vue_produit', 'P000001');
 
 -- Mise à jour atomique du compteur journalier
 UPDATE vues_par_produit_jour
 SET nb_vues = nb_vues + 1
-WHERE produit_id = 'AMD-RYZEN-7-9800X3D' AND jour = '2026-11-18';
+WHERE produit_id = 'P000001' AND jour = '2026-11-18';
 ```
 
 #### B. Requête 1 : Nombre de vues d'un produit aujourd'hui
 ```sql
 SELECT nb_vues
 FROM vues_par_produit_jour
-WHERE produit_id = 'AMD-RYZEN-7-9800X3D' AND jour = '2026-11-18';
+WHERE produit_id = 'P000001' AND jour = '2026-11-18';
 ```
 *Exemple de résultat retourné :*
 ```text
@@ -133,9 +133,9 @@ LIMIT 3;
 ```text
  produit_id          | nom_produit                  | nb_vues
 ---------------------+------------------------------+---------
- AMD-RYZEN-7-9800X3D | AMD Ryzen 7 9800X3D          |   84310
- NVIDIA-RTX-5080-FE  | NVIDIA GeForce RTX 5080      |   71940
- ASUS-ROG-X870E      | ASUS ROG Crosshair X870E     |   42105
+ P000001             | AMD Ryzen 7 7800X3D            |   84310
+ P000002             | ASUS ROG STRIX B650E-F GAMING WIFI |   71940
+ P000005             | Fractal Design North           |   42105
 ```
 
 #### D. Requête 3 : Historique des commandes d'un client
@@ -149,6 +149,6 @@ LIMIT 5;
 ```text
  commande_id                          | date_commande                   | montant_total | statut | produits
 --------------------------------------+---------------------------------+---------------+--------+---------------------------------------------
- 9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d | 2026-11-15 18:40:12.000000+0000 |        549.95 | livré  | ['AMD-RYZEN-7-9800X3D', 'NOCTUA-NH-D15']
+ 9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d | 2026-11-15 18:40:12.000000+0000 |        549.95 | livré  | ['P000001', 'P000005']
  1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed | 2026-09-02 10:15:44.000000+0000 |        129.90 | livré  | ['LOGITECH-G-PRO-X']
 ```

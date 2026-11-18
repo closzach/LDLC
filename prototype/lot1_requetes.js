@@ -67,7 +67,7 @@ db.Lot1_Avis.find({ id_produit: "P000001" }).sort({ date_creation: -1 }).skip(5)
 db.Lot1_Produits.aggregate([
   { $match: { _id: "P000002" } },
   { $lookup: {
-      from: "produits",
+      from: "Lot1_Produits",
       localField: "compatible_avec",
       foreignField: "_id",
       as: "produits_compatibles"

@@ -33,7 +33,7 @@ Le processus de connexion fiable s'effectue en deux étapes :
 
 * **Format de la Clé Redis :** `session:<token_id>` (Exemple : `session:a8f5c9e2-4b71-4d3a-9e11-f23456789abc`)
 * **Structure (Hash Redis) :**
-  * `user_id` : Identifiant unique de l'utilisateur (ex: `"45892"`).
+  * `user_id` : Identifiant unique de l'utilisateur du Lot 1 (ex: `"C000001"`).
   * `email` : Adresse e-mail authentifiée (ex: `"client@ldlc.com"`).
   * `role` : Niveau d'accès (`"client"`, `"admin"`).
   * `auth_method` : Méthode utilisée (`"password"`).
@@ -46,10 +46,10 @@ Le processus de connexion fiable s'effectue en deux étapes :
 Afin d'afficher le montant total du panier en une seule lecture sans solliciter systématiquement le Lot 1 (Catalogue MongoDB), chaque article stocké dans le Hash Redis embarque sa quantité **et** son prix unitaire au moment de l'ajout.
 
 * **Format de la Clé :**
-  * Utilisateur connecté : `cart:user:<user_id>` (Exemple : `cart:user:45892`)
+  * Utilisateur connecté : `cart:user:<user_id>` (Exemple : `cart:user:C000001`)
   * Utilisateur invité : `cart:guest:<session_id>` (Exemple : `cart:guest:a8f5c9e2...`)
 * **Structure (Hash Redis) :**
-  * **Champs (*Fields*) :** Référence unique du produit / SKU (Exemple : `prod_ryzen_7_7800x3d`, `prod_rtx_4070`).
+  * **Champs (*Fields*) :** Identifiant produit du Lot 1 (Exemple : `P000001`, `P000003`).
   * **Valeurs (*Values*) :** Chaîne JSON sérialisée contenant la quantité et le prix unitaire TTC en euros (Exemple : `'{"qty": 1, "unit_price": 449.95, "name": "AMD Ryzen 7 7800X3D"}'`).
 * **Mécanisme TTL :** 
   * Panier invité : **24 heures (86400 secondes)**.
@@ -67,7 +67,7 @@ SELECT user_id, password_hash, role FROM users WHERE email = 'client@ldlc.com';
 
 *Étape 2 : Enregistrement de la session dans Redis avec TTL de 30 minutes*
 ```redis
-HSET session:a8f5c9e2-4b71-4d3a-9e11-f23456789abc user_id "45892" email "client@ldlc.com" role "client" auth_method "password" last_activity "1731934200"
+HSET session:a8f5c9e2-4b71-4d3a-9e11-f23456789abc user_id "C000001" email "client@ldlc.com" role "client" auth_method "password" last_activity "1731934200"
 EXPIRE session:a8f5c9e2-4b71-4d3a-9e11-f23456789abc 1800
 ```
 
@@ -86,19 +86,19 @@ DEL session:a8f5c9e2-4b71-4d3a-9e11-f23456789abc
 
 *Ajouter ou mettre à jour un article avec son prix unitaire dans le panier :*
 ```redis
-HSET cart:user:45892 prod_ryzen_7_7800x3d '{"qty": 1, "unit_price": 449.95, "name": "AMD Ryzen 7 7800X3D"}'
-HSET cart:user:45892 prod_rtx_4070 '{"qty": 2, "unit_price": 629.90, "name": "NVIDIA RTX 4070"}'
-EXPIRE cart:user:45892 604800
+HSET cart:user:C000001 P000001 '{"qty": 1, "unit_price": 449.95, "name": "AMD Ryzen 7 7800X3D"}'
+HSET cart:user:C000001 P000003 '{"qty": 2, "unit_price": 119.90, "name": "Corsair Vengeance DDR5 32 Go"}'
+EXPIRE cart:user:C000001 604800
 ```
 
 *Récupérer l'intégralité du panier (articles, quantités et prix) en une seule requête :*
 ```redis
-HGETALL cart:user:45892
+HGETALL cart:user:C000001
 ```
 
 *Supprimer un article spécifique du panier :*
 ```redis
-HDEL cart:user:45892 prod_rtx_4070
+HDEL cart:user:C000001 P000003
 ```
 
 ## 4. Compromis et Justification Architecturale
