@@ -31,24 +31,31 @@ Ce projet propose une architecture basée sur la **persistance polyglotte**, att
 ## 3. Sommaire des Livrables
 
 ### Architecture & Conception Globale
-* [`Docs/Architecture_Globale.png`](./Docs/Architecture_Globale.png) — Schéma d'architecture globale de la plateforme.
-* [`Docs/Document_Conception_Global.pdf`](./Docs/Document_Conception_Global.pdf) — Document de conception complet regroupant les 4 lots.
+* [`README.md`](./README.md) — Présentation du projet, synthèse de l'architecture polyglotte et sommaire des livrables.
+* [`docker-compose.yml`](./docker-compose.yml) — Déploiement local des services Cassandra et Neo4j.
+* [`requirements.txt`](./requirements.txt) — Dépendances Python du prototype Cassandra.
+* Diagramme Mermaid ci-dessous — Architecture globale de la plateforme.
 
 ### Lot 1 : Catalogue Produits (MongoDB)
-* [`Docs/lot1_conception.md`](./Docs/lot1_conception.md) — Choix technologique, comparaison *Embedded vs References*, patterns, indexation et requêtes types.
-* [`Schémas/Lot1_Produits.json`](./Schémas/Lot1_Produits.json) — Jeu de données des fiches produits (15 produits, 4 catégories).
-* [`Schémas/Lot1_Avis.json`](./Schémas/Lot1_Avis.json) & [`Schémas/Lot1_Marques.json`](./Schémas/Lot1_Marques.json) — Collections référencées des avis clients et des marques.
-* [`Schémas/Lot1_Index.js`](./Schémas/Lot1_Index.js) — Script de création des index composés/multikey et validation de schéma.
-* [`Prototype/Lot1_Requetes.js`](./Prototype/Lot1_Requetes.js) — 15 requêtes commentées (CRUD, filtres par attributs, agrégations `$lookup`).
+* [`docs/lot1_conception.md`](./docs/lot1_conception.md) — Choix technologique, comparaison *Embedded vs References*, patterns, indexation et requêtes types.
+* [`data/Lot 1/lot1_produits.json`](./data/Lot%201/lot1_produits.json) — Jeu de données des fiches produits.
+* [`data/Lot 1/lot1_avis.json`](./data/Lot%201/lot1_avis.json) — Jeu de données des avis clients.
+* [`data/Lot 1/lot1_marques.json`](./data/Lot%201/lot1_marques.json) — Jeu de données des marques.
+* [`data/Lot 1/lot1_index.js`](./data/Lot%201/lot1_index.js) — Script de création des index MongoDB.
+* [`prototype/lot1_requetes.js`](./prototype/lot1_requetes.js) — Requêtes commentées MongoDB pour les principaux cas d'utilisation.
 
 ### Lot 2 : Panier et Sessions Utilisateurs (Redis)
-* [`Docs/lot2_conception.md`](./Docs/lot2_conception.md) — Modélisation des clés (`session:<token_id>`, `cart:user:<id>`), structures `Hash`, politique de TTL, sécurité et commandes types (`HSET`, `HGETALL`, `EXPIRE`).
+* [`docs/lot2_conception.md`](./docs/lot2_conception.md) — Modélisation des clés (`session:<token_id>`, `cart:user:<id>`), structures `Hash`, politique de TTL, sécurité et commandes types (`HSET`, `HGETALL`, `EXPIRE`).
+* [`schemas/lot2_redis_schemaless.md`](./schemas/lot2_redis_schemaless.md) — Schéma Redis, conventions de clés, TTL et exemples de commandes.
 
 ### Lot 3 : Logs de Navigation et Analytics (Apache Cassandra)
-* [`Docs/lot3_conception.md`](./Docs/lot3_conception.md) — Modélisation *Query-Driven*, choix des *Partition Keys* et *Clustering Columns*, cohérence réglable (`ONE` / `QUORUM`), schémas CQL du Keyspace `ldlc_analytics` et requêtes analytiques.
+* [`docs/lot3_conception.md`](./docs/lot3_conception.md) — Modélisation *Query-Driven*, choix des *Partition Keys* et *Clustering Columns*, cohérence réglable (`ONE` / `QUORUM`) et requêtes analytiques.
+* [`schemas/lot3_cassandra.cql`](./schemas/lot3_cassandra.cql) — Création du keyspace `ldlc_analytics` et des tables Cassandra.
+* [`prototype/analytics_cassandra.py`](./prototype/analytics_cassandra.py) — Prototype Python d'écriture et de lecture des données Cassandra.
 
 ### Lot 4 : Moteur de Recommandations (Neo4j)
-* [`Docs/lot4_conception.md`](./Docs/lot4_conception.md) — Modélisation du graphe (nœuds `Produit`, `Client`, `Categorie`, `Marque` et arêtes `:A_ACHETE`, `:COMPATIBLE_AVEC`) et requêtes Cypher (achats croisés et compatibilité multi-sauts).
+* [`docs/lot4_conception.md`](./docs/lot4_conception.md) — Modélisation du graphe (nœuds `Produit`, `Client`, `Categorie`, `Marque` et arêtes `:A_ACHETE`, `:COMPATIBLE_AVEC`) et requêtes Cypher.
+* [`schemas/lot4_neo4j.cypher`](./schemas/lot4_neo4j.cypher) — Contraintes, jeu de données et requêtes Cypher du graphe Neo4j.
 
 ```mermaid
 flowchart TB
